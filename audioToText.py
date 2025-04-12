@@ -1,5 +1,6 @@
 import subprocess
 import whisper
+import os
 # import speech_recognition as sr
 
 # r = sr.Recognizer()
@@ -18,10 +19,15 @@ def writeText(source) :
 
     options = whisper.DecodingOptions()
     result = whisper.decode(model, mel, options)
-
+    launch_program(result.text)
     return result.text
 
 def open_file_in_editor(cmd_texte):
     file_name = cmd_texte.replace('Ouvre le fichier, ', '')
     file_path = f"downloads/text_exports/{file_name}".strip()
     subprocess.call(["gnome-text-editor", file_path])
+
+def launch_program(cmd_texte):
+    if cmd_texte.__contains__("VLC"):
+        os.system("flatpak run org.videolan.VLC")
+
